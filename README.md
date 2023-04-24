@@ -1,2 +1,2 @@
 # cs445-final-project
-Finger digit classifier
+Hand gesture digit classifier that classifies the numbers 0-5 from a video feed.\
