@@ -1,9 +1,3 @@
-import sys
-
-import torch
-import torch.nn as nn
-import torchvision.transforms as transforms
-
 import cv2
 import numpy as np
 from skimage import measure

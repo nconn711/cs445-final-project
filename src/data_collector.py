@@ -1,10 +1,8 @@
-import sys
-
 import cv2
 import numpy as np
 
-from train_model import Net
-from data_preprocess import segment_hand
+from model import Net
+from preprocess import segment_hand
 
 
 number = 0
@@ -28,22 +26,16 @@ while True:
     cv2.putText(output, str(number), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2)
     cv2.imshow('Hand Segmentation', output)
 
-    # Exit if the 'q' key is pressed
+    # Wait for a key press and get the key code
     key = cv2.waitKey(1) & 0xFF
+
     if key == ord('q'):
+        # Exit if the 'q' key is pressed
         break
-    elif key == ord('0'):
-        number = 0
-    elif key == ord('1'):
-        number = 1
-    elif key == ord('2'):
-        number = 2
-    elif key == ord('3'):
-        number = 3
-    elif key == ord('4'):
-        number = 4
-    elif key == ord('5'):
-        number = 5
+    elif ord('0') <= key <= ord('5'):
+        # Set the number based on the key pressed
+        number = key - ord('0')
+
 
 # Release the video capture and close all windows
 cap.release()

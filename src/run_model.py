@@ -7,8 +7,8 @@ import torchvision.transforms as transforms
 import cv2
 import numpy as np
 
-from train_model import Net
-from data_preprocess import segment_hand
+from model import Net
+from preprocess import segment_hand
 
 
 # Load the model
