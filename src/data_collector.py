@@ -1,3 +1,5 @@
+import os
+
 import cv2
 import numpy as np
 
@@ -5,16 +7,18 @@ from model import Net
 from preprocess import segment_hand
 
 
-number = 0
 cap = cv2.VideoCapture(0)
+
+dest = 'data_new'
+index = len(os.listdir(f"{dest}/0"))
+number = 0
+
 while True:
     ret, frame = cap.read()
     frame = cv2.resize(frame, (128, 128))
 
     # Process the frame using the hand segmentation algorithm
     result = segment_hand(frame)
-
-    # TODO: store result as a image with label *number*
 
     # Add a third dimension for the channel if it is missing
     if len(result.shape) == 2:
@@ -35,6 +39,12 @@ while True:
     elif ord('0') <= key <= ord('5'):
         # Set the number based on the key pressed
         number = key - ord('0')
+        index = len(os.listdir(f"{dest}/{number}"))
+    elif key == ord('c'):
+        # Capture data
+        filename = f"{dest}/{number}/{index}_{number}.png"
+        cv2.imwrite(filename, result)
+        index += 1
 
 
 # Release the video capture and close all windows

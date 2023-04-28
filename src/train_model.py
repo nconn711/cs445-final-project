@@ -25,17 +25,17 @@ transform = transforms.Compose([
 transform.transforms.append(transforms.Lambda(round_tensor))
 
 # Load the dataset
-data_path = 'data'
+data_path = 'data_new'
 dataset = datasets.ImageFolder(root=data_path, transform=transform)
 
 # Define the train, validation, and test sets
-train_size = int(0.1 * len(dataset))
-val_size = int(0.2 * len(dataset))
+train_size = int(0.8 * len(dataset))
+val_size = int(0.05 * len(dataset))
 test_size = len(dataset) - train_size - val_size
 train_dataset, val_dataset, test_dataset = random_split(dataset, [train_size, val_size, test_size])
 
 # Define the dataloaders
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
@@ -46,12 +46,12 @@ print("Test size:", test_size)
 # Instantiate the CNN and define the loss function and optimizer
 model = Net()
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.002)
 
 # Train the CNN
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = model.to(device)
-epochs = 1
+epochs = 5
 
 for epoch in range(epochs):
     for i, (inputs, labels) in tqdm(enumerate(train_loader), total=len(train_loader), desc=f'Epoch {epoch}'):
@@ -75,7 +75,7 @@ for epoch in range(epochs):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
             accuracy = 100 * correct / total
-        print('Epoch %d, validation accuracy: %f %%' % (epoch+1, accuracy))
+        print('Epoch %d, validation accuracy: %f %%' % (epoch, accuracy))
 
 correct = 0
 total = 0
@@ -90,5 +90,5 @@ with torch.no_grad():
     print('Test accuracy: %f %%' % (accuracy))
 
 # Save the model
-PATH = "models/model_v1.pt"
+PATH = "models/model_new_v2.pt"
 torch.save(model.state_dict(), PATH)

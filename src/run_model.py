@@ -12,7 +12,7 @@ from preprocess import segment_hand
 
 
 # Load the model
-model_path = 'models/model_v0.pt'
+model_path = 'models/model_new_v2.pt'
 model = Net()
 model.load_state_dict(torch.load(model_path))
 model.train(False)
